@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-secondary: var(--second-family);
   --color-bgLight: var(--bgLight);
+  --color-white: var(--white);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --breakpoint-vsm: 475px;

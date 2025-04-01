@@ -33,7 +33,7 @@ export default function RootLayout({
         <div className="flex mx-1 sm:mx-5 gap-5 py-5 h-screen relative overflow-x-hidden">
           <Sidebar />
 
-          <main className="flex-1 bg-foreground h-full rounded-[10px] py-4 px-3  flex flex-col items-center justify-center relative">
+          <main className="flex-1 bg-foreground h-full rounded-[10px] py-4 px-3  flex flex-col items-center  relative">
             <OpenSidebarButton />
 
             {children}
