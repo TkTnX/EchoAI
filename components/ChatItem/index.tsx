@@ -10,7 +10,7 @@ export const ChatItem = () => {
   const id = 1;
   return (
     <div className="flex items-center gap-3 p-3 hover:bg-bgLight rounded-lg transition relative group overflow-hidden">
-      <Link href={"/c/1"} className="absolute inset-0" />
+      <Link href={"/c/1"} className="absolute inset-0 z-10" />
       <button className="bg-background p-1 rounded-full opacity-0  group-hover:opacity-100  relative z-20  -translate-x-full  group-hover:-translate-x-0 transition">
         <MoreHorizontal size={16} />
       </button>
