@@ -2,24 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Blur } from "../ui/Blur";
+import { MoreHorizontal } from "lucide-react";
 
 export const ChatItem = () => {
   const pathname = usePathname();
   // TEMP
   const id = 1;
   return (
-    <Link
-      href="/c/1"
-      className="flex items-center gap-3 p-3 hover:bg-bgLight rounded-lg transition relative group overflow-hidden"
-    >
-      <Image
-        className="hidden md:block"
-        src="/icons/chat.svg"
-        alt="chat"
-        width={16}
-        height={16}
-      />
-      <p>Chat #1</p>
+    <div className="flex items-center gap-3 p-3 hover:bg-bgLight rounded-lg transition relative group overflow-hidden">
+      <Link href={"/c/1"} className="absolute inset-0" />
+      <button className="bg-background p-1 rounded-full opacity-0  group-hover:opacity-100  relative z-20  -translate-x-full  group-hover:-translate-x-0 transition">
+        <MoreHorizontal size={16} />
+      </button>
+      <div className="flex items-center gap-3 transition-all -translate-x-10 group-hover:-translate-x-0">
+        <Image
+          className="hidden md:block"
+          src="/icons/chat.svg"
+          alt="chat"
+          width={16}
+          height={16}
+        />
+        <p>Chat #1</p>
+      </div>
       {pathname.includes(`/c/${id}`) && (
         <Image
           className="absolute right-2"
@@ -30,6 +34,6 @@ export const ChatItem = () => {
         />
       )}
       <Blur className="w-[94px] h-[74px] -right-20" />
-    </Link>
+    </div>
   );
 };
