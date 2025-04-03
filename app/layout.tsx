@@ -3,7 +3,7 @@ import "./globals.css";
 import { Russo_One, Space_Mono } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import { OpenSidebarButton } from "@/components/OpenSidebarButton";
-import { SessionProvider } from "next-auth/react";
+import { Providers } from "@/components/Providers";
 const russoOne = Russo_One({
   subsets: ["latin"],
   variable: "--font-family",
@@ -28,10 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="ru">
-      <SessionProvider>
-        <body
-          className={` ${russoOne.className} ${spaceMono.variable} antialiased `}
-        >
+      <body
+        className={` ${russoOne.className} ${spaceMono.variable} antialiased `}
+      >
+        <Providers>
           <div className="flex mx-1 sm:mx-5 gap-5 py-5 h-screen relative overflow-x-hidden">
             <Sidebar />
 
@@ -41,8 +41,8 @@ export default function RootLayout({
               {children}
             </main>
           </div>
-        </body>
-      </SessionProvider>
+        </Providers>
+      </body>
     </html>
   );
 }

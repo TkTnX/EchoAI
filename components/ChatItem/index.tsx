@@ -3,9 +3,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Blur } from "../ui/Blur";
 import { MoreHorizontal } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export const ChatItem = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  console.log(session)
   // TEMP
   const id = 1;
   return (
