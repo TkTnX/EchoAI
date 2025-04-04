@@ -2,6 +2,11 @@ import prisma from "@/prisma/prisma";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+
+// TODO: Root Layout и layout Для Login & register
+// TODO: Добавить валидацию пароля
+// TODO: Добавить zod
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -17,6 +22,19 @@ export const authOptions: AuthOptions = {
         };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
+      profile(profile) {
+        console.log(profile)
+        return {
+          id: profile.sub,
+          name: profile.name || profile.email,
+          email: profile.email,
+          image: profile.picture,
+        }
+      }
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -30,8 +48,6 @@ export const authOptions: AuthOptions = {
           email: credentials.email,
           password: credentials.password,
         };
-
-        console.log(values);
 
         const user = await prisma.user.findFirst({
           where: {
@@ -61,18 +77,15 @@ export const authOptions: AuthOptions = {
           return true;
         }
 
-
         if (!user.email) {
           return false;
         }
-
 
         const findUser = await prisma.user.findFirst({
           where: {
             OR: [{ email: user.email }, { provider: account?.provider }],
           },
         });
-
 
         if (findUser) {
           await prisma.user.update({
