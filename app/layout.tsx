@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Russo_One, Space_Mono } from "next/font/google";
-import { Sidebar } from "@/components/Sidebar";
-import { OpenSidebarButton } from "@/components/OpenSidebarButton";
 import { Providers } from "@/components/Providers";
 const russoOne = Russo_One({
   subsets: ["latin"],
@@ -32,14 +30,8 @@ export default function RootLayout({
         className={` ${russoOne.className} ${spaceMono.variable} antialiased `}
       >
         <Providers>
-          <div className="flex mx-1 sm:mx-5 gap-5 py-5 h-screen relative overflow-x-hidden">
-            <Sidebar />
-
-            <main className="flex-1 bg-foreground h-full rounded-[10px] py-4 px-3  flex flex-col items-center  relative">
-              <OpenSidebarButton />
-
-              {children}
-            </main>
+          <div className="flex gap-5  h-screen relative overflow-x-hidden">
+            <main className="flex-1 ">{children}</main>
           </div>
         </Providers>
       </body>

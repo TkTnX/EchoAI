@@ -3,14 +3,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Blur } from "../ui/Blur";
 import { MoreHorizontal } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Chat } from "@/generated/prisma";
 
-export const ChatItem = () => {
+type Props = {
+  chat: Chat;
+};
+
+export const ChatItem = ({ chat }: Props) => {
   const pathname = usePathname();
-  const { data: session } = useSession();
-  console.log(session)
-  // TEMP
-  const id = 1;
   return (
     <div className="flex items-center gap-3 p-3 hover:bg-bgLight rounded-lg transition relative group overflow-hidden">
       <Link href={"/c/1"} className="absolute inset-0 z-10" />
@@ -27,7 +27,7 @@ export const ChatItem = () => {
         />
         <p>Chat #1</p>
       </div>
-      {pathname.includes(`/c/${id}`) && (
+      {pathname.includes(`/c/${chat.id}`) && (
         <Image
           className="absolute right-2"
           src="/icons/activeChat.svg"

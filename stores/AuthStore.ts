@@ -1,11 +1,13 @@
-import { User } from "@/generated/prisma";
+import { UserType } from "@/types";
+import axios from "axios";
+import { Session } from "next-auth";
 import { create } from "zustand";
 
 interface AuthStore {
-  user: null | User;
+  user: null | UserType;
   error: null | string;
   loading: boolean;
-  fetchUser: (sessionUser: {name: string, email: string, image: null | string}) => Promise<void>;
+  fetchUser: (sessionUser: Session["user"]) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -13,12 +15,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
   error: null,
   loading: false,
   fetchUser: async (sessionUser) => {
-      try {
-          set({ loading: true });
-          
-        //   TODO: Доделать получение пользователя
+    set({ loading: true });
+    try {
+      if (!sessionUser || !sessionUser.email) {
+        return set({ error: "Пользователь не найден в базе данных" });
+      }
+      const userInDB = await axios.get("/api/auth/me");
+
+      set({ user: userInDB.data, loading: false });
     } catch (error) {
       console.log(error);
+    } finally {
+      set({ loading: false });
     }
   },
 }));

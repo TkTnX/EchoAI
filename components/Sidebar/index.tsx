@@ -6,9 +6,23 @@ import Link from "next/link";
 import { useSidearStore } from "@/stores/SidebarStore";
 import { Button } from "../ui/Button";
 import { UserButton } from "../UserButton";
+import { useAuthStore } from "@/stores/AuthStore";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export const Sidebar = () => {
   const { open } = useSidearStore();
+  const session = useSession();
+  const { fetchUser, loading, user } = useAuthStore();
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (session.data) {
+        await fetchUser(session.data.user);
+      }
+    };
+    getUser();
+  }, [fetchUser, session.data]);
   return (
     <div
       className={`h-[calc(100vh-64px)] w-full vsm:w-auto  rounded-lg bg-foreground flex md:bg-transparent pt-20 pl-3 md:py-0 md:px-0 md:h-full flex-col absolute z-10 md:static  md:flex lg:w-[250px] transition ${
@@ -25,20 +39,23 @@ export const Sidebar = () => {
         {/* SEARCH */}
         <Search />
         {/* CLEAR ALL CHATS */}
-        <Button blurPosition="-right-20" className="mt-5">
-          <Image
-            src="/icons/restart.svg"
-            width={18}
-            height={18}
-            alt="Clear all chats"
-          />
-          <span className="opacity-50">Удалить все чаты</span>
-        </Button>
+        {user && user.chats.length > 0 && (
+          <Button blurPosition="-right-20" className="mt-5">
+            <Image
+              src="/icons/restart.svg"
+              width={18}
+              height={18}
+              alt="Clear all chats"
+            />
+            <span className="opacity-50">Удалить все чаты</span>
+          </Button>
+        )}
         {/* MY CHATS */}
-        <Chats />
+
+        <Chats chats={user ? user.chats : []} loading={loading} />
 
         {/* USER BUTTON */}
-        <UserButton />
+        <UserButton user={user} />
       </div>
     </div>
   );

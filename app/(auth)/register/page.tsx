@@ -1,5 +1,5 @@
 import { AuthForm } from "@/components/AuthForm";
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className="max-w-[400px]  flex flex-col w-full h-full justify-center items-center  gap-4">
       <AuthForm type="register" />
@@ -7,4 +7,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -4,9 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-// TODO: Root Layout и layout Для Login & register
 // TODO: Добавить валидацию пароля
-// TODO: Добавить zod
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -26,7 +24,6 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
       profile(profile) {
-        console.log(profile)
         return {
           id: profile.sub,
           name: profile.name || profile.email,

@@ -1,38 +1,60 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/Button";
 import { ProviderButtons } from "../ProviderButtons";
 import Link from "next/link";
 import { axiosInstance } from "@/lib/axiosInstance";
+import { ZodIssue } from "zod";
+import { loginSchema, registerSchema } from "./schemas";
+import { useState } from "react";
+import { FormInput } from "../ui/FormInput";
 
 type Props = {
   type: "login" | "register";
 };
 
 export const AuthForm = ({ type }: Props) => {
+  const [errors, setErrors] = useState<[] | ZodIssue[]>([]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.currentTarget));
       let res;
       if (type === "login") {
+        const validation = loginSchema.safeParse(data);
+
+        if (!validation.success) {
+          setErrors(validation.error.issues);
+          throw new Error(validation.error.message);
+        }
+
+        const validatedData = validation.data;
         res = await signIn("credentials", {
-          ...data,
-          redirect: true,
+          ...validatedData,
+          redirect: false,
           callbackUrl: "/",
         });
       } else {
+        const validation = registerSchema.safeParse(data);
+
+        if (!validation.success) {
+          console.log(validation.error);
+
+          setErrors(validation.error.issues);
+          throw new Error(validation.error.message);
+        }
+
+        const validatedData = validation.data;
+
         const res = await axiosInstance.post("/auth/register", data);
         if (res.status !== 200) {
-          console.log(res.data);
           throw new Error(res.data.error);
         }
 
         await signIn("credentials", {
-          ...data,
-          redirect: true,
+          ...validatedData,
+          redirect: false,
           callbackUrl: "/",
         });
       }
@@ -45,6 +67,7 @@ export const AuthForm = ({ type }: Props) => {
     }
   };
 
+
   return (
     <>
       <form
@@ -56,25 +79,27 @@ export const AuthForm = ({ type }: Props) => {
         </h2>
 
         {type === "register" && (
-          <Input
-            className="outline-none"
+          <FormInput
             type="text"
-            placeholder="Имя пользователя"
             name="username"
+            placeholder="Имя пользователя"
+            errors={errors}
           />
         )}
-        <Input
-          className="outline-none"
+
+        <FormInput
           type="email"
           placeholder="Адрес электронной почты"
           name="email"
+          errors={errors}
         />
-        <Input
-          className="outline-none"
+        <FormInput
+          errors={errors}
           type="password"
           placeholder="Пароль"
           name="password"
         />
+
         <p className="text-xs ">
           {type === "login" ? (
             <>
@@ -99,6 +124,11 @@ export const AuthForm = ({ type }: Props) => {
         >
           {type === "login" ? "Вход" : "Регистрация"}
         </Button>
+        {errors.find((issue) => issue.path[0] === "submit") && (
+          <p className="text-red-500 text-xs">
+            {errors.find((issue) => issue.path[0] === "submit")?.message}
+          </p>
+        )}
       </form>
       <div className="flex items-center gap-2 w-full">
         <div className="h-0.5 bg-bgLight flex-1" />
