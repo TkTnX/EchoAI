@@ -1,10 +1,11 @@
 import prisma from "@/prisma/prisma";
+import bcrypt from "bcryptjs";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-// TODO: Добавить валидацию пароля
+// * TODO: Добавить хэширование пароля при регистрации
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -29,8 +30,8 @@ export const authOptions: AuthOptions = {
           name: profile.name || profile.email,
           email: profile.email,
           image: profile.picture,
-        }
-      }
+        };
+      },
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -54,7 +55,10 @@ export const authOptions: AuthOptions = {
 
         if (!user) return null;
 
-        const isPasswordValid = values.password === user.password;
+        const isPasswordValid = await bcrypt.compare(
+          values.password,
+          user.password || ""
+        );
 
         if (!isPasswordValid) return null;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -135,6 +139,10 @@ export const authOptions: AuthOptions = {
       }
       return session;
     },
+  },
+  pages: {
+    error: "/",
+    signIn: "/",
   },
 };
 

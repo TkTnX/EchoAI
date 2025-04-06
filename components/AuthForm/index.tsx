@@ -9,6 +9,7 @@ import { ZodIssue } from "zod";
 import { loginSchema, registerSchema } from "./schemas";
 import { useState } from "react";
 import { FormInput } from "../ui/FormInput";
+import { toast } from "react-toastify";
 
 type Props = {
   type: "login" | "register";
@@ -16,6 +17,7 @@ type Props = {
 
 export const AuthForm = ({ type }: Props) => {
   const [errors, setErrors] = useState<[] | ZodIssue[]>([]);
+  // TODO: Вынести или упростить эту функцию
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -54,19 +56,19 @@ export const AuthForm = ({ type }: Props) => {
 
         await signIn("credentials", {
           ...validatedData,
-          redirect: false,
+          redirect: true,
           callbackUrl: "/",
         });
       }
 
       if (!res?.ok) {
+        toast.error("Неверные данные или пароль!");
         throw new Error(res?.error || "Error!");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <>

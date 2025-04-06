@@ -184,3 +184,10 @@ input {
 .container {
   @apply flex-1 mx-auto bg-foreground h-full rounded-[10px] py-4 px-3  flex flex-col items-center justify-center relative;
 }
+
+.one-line {
+  -webkit-line-clamp: 1; /* Число отображаемых строк */
+  display: -webkit-box; /* Включаем флексбоксы */
+  -webkit-box-orient: vertical; /* Вертикальная ориентация */
+  overflow: hidden;
+}

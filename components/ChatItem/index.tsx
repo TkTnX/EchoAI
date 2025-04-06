@@ -13,19 +13,19 @@ export const ChatItem = ({ chat }: Props) => {
   const pathname = usePathname();
   return (
     <div className="flex items-center gap-3 p-3 hover:bg-bgLight rounded-lg transition relative group overflow-hidden">
-      <Link href={"/c/1"} className="absolute inset-0 z-10" />
+      <Link href={`/c/${chat.id}`} className="absolute inset-0 z-10" />
       <button className="bg-background p-1 rounded-full opacity-0  group-hover:opacity-100  relative z-20  -translate-x-full  group-hover:-translate-x-0 transition">
         <MoreHorizontal size={16} />
       </button>
       <div className="flex items-center gap-3 transition-all -translate-x-10 group-hover:-translate-x-0">
         <Image
           className="hidden md:block"
-          src="/icons/chat.svg"
+          src={chat.img || "/icons/chat.svg"}
           alt="chat"
           width={16}
           height={16}
         />
-        <p>Chat #1</p>
+        <p>{chat.name}</p>
       </div>
       {pathname.includes(`/c/${chat.id}`) && (
         <Image

@@ -17,7 +17,7 @@ export const Chats = ({ loading, chats }: Props) => {
           [...new Array(5)].map((_, index) => (
             <Skeleton key={index} className="h-12 w-full bg-bgLight" />
           ))
-        ) : chats.length > 0 ? (
+        ) : chats?.length > 0 ? (
           chats.map((chat) => <ChatItem key={chat.id} chat={chat} />)
         ) : (
           <p className="text-xs text-center opacity-50 w-full h-full mt-[100%]">

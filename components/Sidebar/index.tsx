@@ -4,11 +4,11 @@ import { Search } from "../Search";
 import { Chats } from "../Chats";
 import Link from "next/link";
 import { useSidearStore } from "@/stores/SidebarStore";
-import { Button } from "../ui/Button";
 import { UserButton } from "../UserButton";
 import { useAuthStore } from "@/stores/AuthStore";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { DeleteAllChats } from "../DeleteAllChats";
 
 export const Sidebar = () => {
   const { open } = useSidearStore();
@@ -39,20 +39,12 @@ export const Sidebar = () => {
         {/* SEARCH */}
         <Search />
         {/* CLEAR ALL CHATS */}
-        {user && user.chats.length > 0 && (
-          <Button blurPosition="-right-20" className="mt-5">
-            <Image
-              src="/icons/restart.svg"
-              width={18}
-              height={18}
-              alt="Clear all chats"
-            />
-            <span className="opacity-50">Удалить все чаты</span>
-          </Button>
+        {user && user.chats?.length > 0 && (
+          <DeleteAllChats userId={user.id} />
         )}
         {/* MY CHATS */}
 
-        <Chats chats={user ? user.chats : []} loading={loading} />
+        <Chats chats={user ? user?.chats : []} loading={loading} />
 
         {/* USER BUTTON */}
         <UserButton user={user} />
