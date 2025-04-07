@@ -16,7 +16,12 @@ export const DeleteAllChats = ({ userId }: Props) => {
   const { data: session } = useSession();
   const { fetchUser } = useAuthStore();
   const onClick = async () => {
-    try {
+      try {
+        // TODO: В будущем заменить на другую модалку
+      const confirm = window.confirm(
+        "Вы действительно хотите удалить все чаты?"
+      );
+      if (!confirm) return;
       await axiosInstance.delete(`/chats`, {
         data: {
           userId,

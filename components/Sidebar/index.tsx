@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { DeleteAllChats } from "../DeleteAllChats";
 
+
 export const Sidebar = () => {
   const { open } = useSidearStore();
   const session = useSession();
@@ -17,12 +18,11 @@ export const Sidebar = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      if (session.data) {
-        await fetchUser(session.data.user);
-      }
+      if (session.data) await fetchUser(session.data.user);
     };
     getUser();
   }, [fetchUser, session.data]);
+
   return (
     <div
       className={`h-[calc(100vh-64px)] w-full vsm:w-auto  rounded-lg bg-foreground flex md:bg-transparent pt-20 pl-3 md:py-0 md:px-0 md:h-full flex-col absolute z-10 md:static  md:flex lg:w-[250px] transition ${
@@ -39,9 +39,7 @@ export const Sidebar = () => {
         {/* SEARCH */}
         <Search />
         {/* CLEAR ALL CHATS */}
-        {user && user.chats?.length > 0 && (
-          <DeleteAllChats userId={user.id} />
-        )}
+        {user && user.chats?.length > 0 && <DeleteAllChats userId={user.id} />}
         {/* MY CHATS */}
 
         <Chats chats={user ? user?.chats : []} loading={loading} />

@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
-
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 type Props = {
   isUser: boolean;
   text: string;
@@ -14,9 +14,10 @@ export const Message = ({ isUser, text }: Props) => {
       ) : (
         <Image src={"/icons/logo.svg"} width={24} height={24} alt="Logo" />
       )}
-      <p className={cn("tracking-wider leading-6 opacity-80", isUser && "opacity-50")}>
-        {text}
-      </p>
+
+      <div>
+        <Markdown remarkPlugins={[remarkGfm]}>{text}</Markdown>
+      </div>
     </div>
   );
 };
