@@ -18,7 +18,8 @@ export const PromptForm = ({ className, chatId }: Props) => {
 
   // TODO: Сделать что-то с адаптивом при наличии больших сообщений
   // TODO: В promptForm заменить input на textare
-  // TODO: Модалка с возможностью удалять чат и редактировать название
+  // TODO: После удаления/редактирования сразу изменять данные
+  // TODO: При создании чата, пока обрабатывается промпт, отображать что-то
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
