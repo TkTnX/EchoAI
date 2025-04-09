@@ -10,6 +10,8 @@ import { axiosInstance } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EditChat } from "../Modals";
+import { useAuthStore } from "@/stores/AuthStore";
+import { useSession } from "next-auth/react";
 
 type Props = {
   children: React.ReactNode;
@@ -19,6 +21,8 @@ type Props = {
 export const ChatItemDropdown = ({ children, chatId }: Props) => {
   const router = useRouter();
   const [openEdit, setOpenEdit] = useState(false);
+  const { fetchUser } = useAuthStore();
+  const { data: session } = useSession();
   const onClick = async (type: string) => {
     try {
       switch (type) {
@@ -28,10 +32,11 @@ export const ChatItemDropdown = ({ children, chatId }: Props) => {
           if (!confirm) return;
           const res = await axiosInstance.delete(`/chats/${chatId}`);
           if (res.status === 200) {
+            router.refresh();
+            router.push("/");
+            await fetchUser(session?.user);
             return toast.success("Чат успешно удален!");
           }
-          router.refresh();
-          router.push("/");
           break;
 
         case "edit":
@@ -61,7 +66,9 @@ export const ChatItemDropdown = ({ children, chatId }: Props) => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      {openEdit && <EditChat chatId={chatId} open={ openEdit} setOpen={setOpenEdit} />}
+      {openEdit && (
+        <EditChat chatId={chatId} open={openEdit} setOpen={setOpenEdit} />
+      )}
     </>
   );
 };

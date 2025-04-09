@@ -12,14 +12,14 @@ export const UserButton = ({ user }: Props) => {
   return (
     <Link
       href={user ? "/account" : "/login"}
-      className="flex items-center gap-2 hover:bg-bgLight rounded-lg transition absolute bottom-5 left-3 right-3"
+      className="flex items-center gap-2 hover:bg-bgLight rounded-lg transition absolute bottom-5 left-3 right-3 p-2 bg-foreground"
     >
-      <div className="p-2 bg-bgLight  rounded-full">
+      <div className=" bg-bgLight  rounded-full  w-6 h-6">
         {user ? (
           <Image
             alt="User"
             src={user.img || "/icons/avatar.svg"}
-            className="object-cover"
+            className=" w-6 h-6 rounded-full"
             width={24}
             height={24}
           />

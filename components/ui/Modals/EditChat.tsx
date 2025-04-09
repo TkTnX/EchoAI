@@ -11,6 +11,9 @@ import { useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { toast } from "react-toastify";
 import { axiosInstance } from "@/lib/axiosInstance";
+import { useAuthStore } from "@/stores/AuthStore";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   open: boolean;
@@ -21,6 +24,9 @@ type Props = {
 export const EditChat = ({ open, setOpen, chatId }: Props) => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState<null | string>(null);
+  const { fetchUser } = useAuthStore();
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent) => {
     try {
@@ -35,11 +41,15 @@ export const EditChat = ({ open, setOpen, chatId }: Props) => {
 
       if (res.status === 200) {
         setOpen(false);
+
         return toast.success("Чат успешно изменен!");
       }
     } catch (error) {
       console.log(error);
       return toast.error("Не удалось изменить чат!");
+    } finally {
+      router.refresh();
+      await fetchUser(session?.user);
     }
   };
 

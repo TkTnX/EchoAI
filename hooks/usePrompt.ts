@@ -14,10 +14,11 @@ export const usePrompt = () => {
     loading: false,
   } as PrevStateInterface);
   const pathname = usePathname();
-    const router = useRouter();
-    
-    // ФУНКЦИЯ ДЛЯ ОТПРАВКИ ПРОМПТА
+  const router = useRouter();
+
+  // ФУНКЦИЯ ДЛЯ ОТПРАВКИ ПРОМПТА
   const createPrompt = async (formData: FormData) => {
+    state.loading = true;
     if (pathname === "/") {
       const res = await axiosInstance.post("/chats", {
         message: formData.get("message"),
@@ -25,12 +26,13 @@ export const usePrompt = () => {
       });
       router.refresh();
       await fetchUser(session?.user);
+
       router.push(`/c/${res.data.id}`);
+      state.loading = false;
     } else {
       startTransition(() => formAction(formData));
 
       router.refresh();
-
     }
   };
 

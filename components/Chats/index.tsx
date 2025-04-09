@@ -12,7 +12,7 @@ export const Chats = ({ loading, chats }: Props) => {
     <div className="mt-5 ">
       <h6 className="uppercase opacity-40">Библиотека</h6>
       {/* CHATS */}
-      <div className="flex flex-col mt-1 gap-1 max-h-full overflow-y-auto h-full">
+      <div className="flex flex-col mt-1 gap-1  overflow-y-auto h-[calc(100vh-300px)] ">
         {loading ? (
           [...new Array(5)].map((_, index) => (
             <Skeleton key={index} className="h-12 w-full bg-bgLight" />

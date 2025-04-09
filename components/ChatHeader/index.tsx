@@ -1,8 +1,9 @@
-import { Chat } from "@/generated/prisma";
 import Image from "next/image";
+import { ClearChat } from "../ClearChat";
+import { ChatType } from "@/types";
 
 type Props = {
-  chat: Chat;
+  chat: ChatType;
 };
 
 export const ChatHeader = ({ chat }: Props) => {
@@ -17,12 +18,7 @@ export const ChatHeader = ({ chat }: Props) => {
 
         <p className="text-xs opacity-80">{chat.name}</p>
       </div>
-      <button className="flex items-center gap-1 group">
-        <Image src="/icons/restart.svg" alt="Restart" width={16} height={16} />
-        <p className="text-xs opacity-60 transition group-hover:opacity-100">
-          Очистить чат
-        </p>
-      </button>
+      {chat.messages.length > 0 && <ClearChat chatId={chat.id} />}
     </header>
   );
 };

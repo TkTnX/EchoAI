@@ -13,6 +13,7 @@ const ChatPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
     include: {
       messages: true,
+      user: true,
     },
   });
 
@@ -22,7 +23,7 @@ const ChatPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     <>
       <ChatHeader chat={chat} />
       {/* Messages */}
-      <Messages messages={chat.messages} />
+      <Messages userImg={chat.user.img} messages={chat.messages} />
 
       {/* FORM */}
       <div className="absolute bottom-10 mx-auto px-3 w-full flex justify-center">
