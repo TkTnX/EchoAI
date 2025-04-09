@@ -31,7 +31,6 @@ export const PUT = async (
 
     const updateData = {};
 
-    // Добавляем img, только если оно не null и не undefined
     if (body.img !== null && body.img !== undefined) {
       //    @ts-ignore
       updateData.img = body.img;

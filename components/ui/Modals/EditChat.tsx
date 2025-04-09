@@ -1,3 +1,4 @@
+"use client";
 import { SmilePlus, X } from "lucide-react";
 import {
   AlertDialog,

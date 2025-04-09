@@ -6,7 +6,7 @@ import { Blur } from "./Blur";
 import { useAuthStore } from "@/stores/AuthStore";
 import { toast } from "react-toastify";
 import { usePrompt } from "@/hooks/usePrompt";
-import { startTransition, useRef } from "react";
+import { startTransition, useRef, useState } from "react";
 import { Loading } from "./Loading";
 import { useChatStore } from "@/stores/ChatStore";
 
@@ -22,12 +22,7 @@ export const PromptForm = ({ className, chatId }: Props) => {
   );
   const { user } = useAuthStore();
   const formRef = useRef<null | HTMLFormElement>(null);
-  // * TODO: В promptForm заменить input на textare
-  // *  TODO: После удаления/редактирования сразу изменять данные
-  // * TODO: Кнопка очистить чат
-  // * TODO: При отправке сообщения через useOptimistic отображать что-то
-  // TODO: При создании чата, пока обрабатывается промпт, отображать что-то (сделать отображение фейкового чата, как в chatgpt)
-  // TODO: В сообщениях показывать картинку пользователя
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -68,18 +63,15 @@ export const PromptForm = ({ className, chatId }: Props) => {
 
       <form
         ref={formRef}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          state.loading = true;
-          onSubmit(e);
-        }}
+        onSubmit={onSubmit}
         className={cn(
           "flex items-center justify-center  w-full gap-2 pr-4 max-w-[530px] bg-bgLight rounded-lg group overflow-hidden  relative mx-auto",
           className,
-          { "pointer-events-none opacity-50": isPending }
+          { "pointer-events-none opacity-50": isPending || state.loading }
         )}
       >
         <textarea
-          disabled={isPending}
+          disabled={isPending || state.loading}
           autoComplete="off"
           name="message"
           className="peer text-sm placeholder:text-xs placeholder:opacity-40 flex-1 p-4 focus:placeholder:opacity-100 placeholder:transition group resize-none outline-none"
@@ -88,7 +80,7 @@ export const PromptForm = ({ className, chatId }: Props) => {
           }
           onKeyDown={(e: React.KeyboardEvent) => onEnter(e)}
         />
-        <button disabled={isPending} type="submit">
+        <button disabled={isPending || state.loading} type="submit">
           <SendHorizonal
             color="#777779"
             className="hover:stroke-white transition"

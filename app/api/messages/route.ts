@@ -31,6 +31,8 @@ export const POST = async (req: NextRequest) => {
       ],
     });
 
+    console.log(resp);
+
     await prisma.message.create({
       data: {
         text: resp.choices[0].message.content as string,

@@ -1,10 +1,13 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { ChatHeader } from "@/components/ChatHeader";
 import { Messages } from "@/components/Messages";
 import { PromptForm } from "@/components/ui/PromptForm";
 import prisma from "@/prisma/prisma";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 const ChatPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const session = await getServerSession(authOptions);
   const id = (await params).id;
 
   const chat = await prisma.chat.findFirst({
@@ -17,7 +20,7 @@ const ChatPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
 
-  if (!chat) return redirect("/");
+  if (!chat || chat.user.email !== session?.user?.email) return redirect("/");
 
   return (
     <>

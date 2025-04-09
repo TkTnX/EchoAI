@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/AuthStore";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
+import { toast } from "react-toastify";
 
 export const usePrompt = () => {
   const { user, fetchUser } = useAuthStore();
@@ -20,15 +21,19 @@ export const usePrompt = () => {
   const createPrompt = async (formData: FormData) => {
     state.loading = true;
     if (pathname === "/") {
+      if (state.loading) {
+        toast.loading("Создание чата...");
+      }
       const res = await axiosInstance.post("/chats", {
         message: formData.get("message"),
         userId: user?.id,
       });
+      router.push(`/c/${res.data.id}`);
       router.refresh();
       await fetchUser(session?.user);
 
-      router.push(`/c/${res.data.id}`);
       state.loading = false;
+      toast.dismiss();
     } else {
       startTransition(() => formAction(formData));
 

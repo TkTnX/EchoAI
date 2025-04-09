@@ -10,10 +10,14 @@ interface ChatStore {
   setAddOptimisticMessage: (
     addOptimisticMessage: (action: OptimisticMessageProps) => void
   ) => void;
+  search: string;
+  setSearch: (search: string) => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
   addOptimisticMessage: null,
+  search: "",
+  setSearch: (search) => set({ search }),
   setAddOptimisticMessage: (addOptimisticMessage) =>
     set({ addOptimisticMessage }),
 }));

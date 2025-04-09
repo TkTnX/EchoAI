@@ -24,7 +24,7 @@ export const UserButton = ({ user }: Props) => {
             height={24}
           />
         ) : (
-          <User size={24} />
+          <User className="p-1" size={24} />
         )}
       </div>
       <h6>{user ? user.username : "Войти"}</h6>
