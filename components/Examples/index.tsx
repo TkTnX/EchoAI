@@ -1,4 +1,5 @@
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
+
 import { EXAMPLES } from "./config";
 
 export const Examples = () => {
