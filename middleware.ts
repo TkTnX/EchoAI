@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("next-auth.session-token");
+  const token =
+    request.cookies.get("next-auth.session-token") ||
+    request.cookies.get(" __Secure-next-auth.session-token");
   const isLoginPage = request.nextUrl.pathname.startsWith("/login");
   const isRegisterPage = request.nextUrl.pathname.startsWith("/register");
   if (!token && !isLoginPage && !isRegisterPage) {
