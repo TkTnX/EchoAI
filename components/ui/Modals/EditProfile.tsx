@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../alert-dialog";
-import { Button } from "@/components/ui/Button";
+import { BlurButton } from "@/components/ui/BlurButton";
 import { Input } from "../input";
 import { Plus } from "lucide-react";
 import { User } from "@/generated/prisma";
@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "@/lib/axiosInstance";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 type Props = {
   children: React.ReactNode;
   user: User;
@@ -78,9 +77,9 @@ export const EditProfile = ({ children, user }: Props) => {
           </div>
           <Input name="username" placeholder="Имя пользователя" />
 
-          <Button type="submit" className="text-center  justify-center">
+          <BlurButton type="submit" className="text-center  justify-center">
             Изменить
-          </Button>
+          </BlurButton>
           {img && (
             <div>
               <h5>Ваш новый аватар: </h5>

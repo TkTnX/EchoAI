@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
+import { BlurButton } from "@/components/ui/BlurButton";
 import { toast } from "react-toastify";
 import { axiosInstance } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
@@ -37,7 +37,7 @@ export const DeleteAllChats = ({ userId }: Props) => {
   };
 
   return (
-    <Button onClick={onClick} blurPosition="-right-20" className="mt-5">
+    <BlurButton onClick={onClick} blurPosition="-right-20" className="mt-5">
       <Image
         src="/icons/restart.svg"
         width={18}
@@ -45,6 +45,6 @@ export const DeleteAllChats = ({ userId }: Props) => {
         alt="Clear all chats"
       />
       <span className="opacity-50">Удалить все чаты</span>
-    </Button>
+    </BlurButton>
   );
 };

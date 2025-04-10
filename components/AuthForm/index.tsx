@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { BlurButton } from "@/components/ui/BlurButton";
 import { ProviderButtons } from "../ProviderButtons";
 import Link from "next/link";
 import { ZodIssue } from "zod";
@@ -91,13 +91,13 @@ export const AuthForm = ({ type }: Props) => {
             </>
           )}
         </p>
-        <Button
+        <BlurButton
           className="text-center justify-center"
           blurPosition="right-0 bottom-0"
           type="submit"
         >
           {type === "login" ? "Вход" : "Регистрация"}
-        </Button>
+        </BlurButton>
         {errors.find((issue) => issue.path[0] === "submit") && (
           <p className="text-red-500 text-xs">
             {errors.find((issue) => issue.path[0] === "submit")?.message}

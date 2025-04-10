@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
 } from "../alert-dialog";
 import { Input } from "../input";
-import { Button } from "@/components/ui/Button";
+import { BlurButton } from "@/components/ui/BlurButton";
 import { useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { toast } from "react-toastify";
@@ -90,9 +90,9 @@ export const EditChat = ({ open, setOpen, chatId }: Props) => {
               className="absolute !bg-foreground !border-foreground"
             />
           )}
-          <Button type="submit" className="text-center  justify-center">
+          <BlurButton type="submit" className="text-center  justify-center">
             Изменить
-          </Button>
+          </BlurButton>
         </form>
       </AlertDialogContent>
     </AlertDialog>
