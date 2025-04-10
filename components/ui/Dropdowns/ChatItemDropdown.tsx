@@ -12,6 +12,7 @@ import { useState } from "react";
 import { EditChat } from "../Modals";
 import { useAuthStore } from "@/stores/AuthStore";
 import { useSession } from "next-auth/react";
+import { confirmModal } from "@/helpers/confirmModal";
 
 type Props = {
   children: React.ReactNode;
@@ -27,8 +28,9 @@ export const ChatItemDropdown = ({ children, chatId }: Props) => {
     try {
       switch (type) {
         case "delete":
-          // TODO: В будущем заменить на другую модалку
-          const confirm = window.confirm("Удалить чат?");
+          const confirm = await confirmModal(
+            "Вы действительно хотите удалить чат?"
+          );
           if (!confirm) return;
           const res = await axiosInstance.delete(`/chats/${chatId}`);
           if (res.status === 200) {

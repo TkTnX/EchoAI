@@ -1,7 +1,7 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { ChatHeader } from "@/components/ChatHeader";
 import { Messages } from "@/components/Messages";
 import { PromptForm } from "@/components/ui/PromptForm";
+import { authOptions } from "@/lib/authOptions";
 import prisma from "@/prisma/prisma";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

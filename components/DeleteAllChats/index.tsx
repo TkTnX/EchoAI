@@ -6,6 +6,7 @@ import { axiosInstance } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useAuthStore } from "@/stores/AuthStore";
+import { confirmModal } from "@/helpers/confirmModal";
 
 type Props = {
   userId: string;
@@ -16,9 +17,8 @@ export const DeleteAllChats = ({ userId }: Props) => {
   const { data: session } = useSession();
   const { fetchUser } = useAuthStore();
   const onClick = async () => {
-      try {
-        // TODO: В будущем заменить на другую модалку
-      const confirm = window.confirm(
+    try {
+      const confirm = await confirmModal(
         "Вы действительно хотите удалить все чаты?"
       );
       if (!confirm) return;

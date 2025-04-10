@@ -33,7 +33,7 @@ export const ChatItem = ({ chat }: Props) => {
           />
         )}
 
-        <p>{chat.name}</p>
+        <p className="one-line">{chat.name}</p>
       </div>
       {pathname.includes(`/c/${chat.id}`) && (
         <Image

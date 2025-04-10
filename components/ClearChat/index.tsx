@@ -1,17 +1,18 @@
 "use client";
 
+import { confirmModal } from "@/helpers/confirmModal";
 import { axiosInstance } from "@/lib/axiosInstance";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
+
 export const ClearChat = ({ chatId }: { chatId: string }) => {
   const router = useRouter();
   const onClear = async () => {
     try {
-      // TODO: В будущем заменить на другую модалку
-      const confirm = window.confirm("Вы действительно хотите очистить чат?");
-      if (!confirm) return;
+          const confirm = await confirmModal("Вы действительно хотите очистить чат?");
+          if (!confirm) return;
       const res = await axiosInstance.delete(`/messages/${chatId}`);
       router.refresh();
       if (res.status === 200) return toast.success("Чат очищен!");

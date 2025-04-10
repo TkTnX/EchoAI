@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -32,12 +33,12 @@ export const PUT = async (
     const updateData = {};
 
     if (body.img !== null && body.img !== undefined) {
-      //    @ts-ignore
+      //    @ts-expect-error
       updateData.img = body.img;
     }
 
     if (body.name && body.name !== undefined && body.name !== "") {
-      //    @ts-ignore
+      //    @ts-expect-error
       updateData.name = body.name;
     }
 

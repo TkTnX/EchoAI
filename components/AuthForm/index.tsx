@@ -1,70 +1,42 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { Button } from "../ui/Button";
 import { ProviderButtons } from "../ProviderButtons";
 import Link from "next/link";
-import { axiosInstance } from "@/lib/axiosInstance";
 import { ZodIssue } from "zod";
-import { loginSchema, registerSchema } from "./schemas";
+import { LoginSchemaType, RegisterSchemaType } from "./schemas";
 import { useState } from "react";
 import { FormInput } from "../ui/FormInput";
 import { toast } from "react-toastify";
+import { onLogin } from "@/helpers/login";
+import { onRegister } from "@/helpers/register";
+import { useRouter } from "next/navigation";
 
 type Props = {
   type: "login" | "register";
 };
 
 export const AuthForm = ({ type }: Props) => {
+  const router = useRouter();
   const [errors, setErrors] = useState<[] | ZodIssue[]>([]);
-  // TODO: Вынести или упростить эту функцию
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.currentTarget));
       let res;
       if (type === "login") {
-        const validation = loginSchema.safeParse(data);
-
-        if (!validation.success) {
-          setErrors(validation.error.issues);
-          throw new Error(validation.error.message);
-        }
-
-        const validatedData = validation.data;
-        res = await signIn("credentials", {
-          ...validatedData,
-          redirect: false,
-          callbackUrl: "/",
-        });
+        res = await onLogin({ data: data as LoginSchemaType, setErrors });
       } else {
-        const validation = registerSchema.safeParse(data);
-
-        if (!validation.success) {
-          console.log(validation.error);
-
-          setErrors(validation.error.issues);
-          throw new Error(validation.error.message);
-        }
-
-        const validatedData = validation.data;
-
-        const res = await axiosInstance.post("/auth/register", data);
-        if (res.status !== 200) {
-          throw new Error(res.data.error);
-        }
-
-        await signIn("credentials", {
-          ...validatedData,
-          redirect: true,
-          callbackUrl: "/",
-        });
+        res = await onRegister({ data: data as RegisterSchemaType, setErrors });
       }
 
       if (!res?.ok) {
         toast.error("Неверные данные или пароль!");
         throw new Error(res?.error || "Error!");
       }
+
+      toast.success("Успешно!");
+      return router.push("/");
     } catch (error) {
       console.log(error);
     }

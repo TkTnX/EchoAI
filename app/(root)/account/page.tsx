@@ -1,6 +1,6 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { LogoutButton } from "@/components/LogoutButton";
 import { EditProfile } from "@/components/ui/Modals";
+import { authOptions } from "@/lib/authOptions";
 import prisma from "@/prisma/prisma";
 import { Edit } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -24,7 +24,7 @@ const AcctounPage = async () => {
           src={user.img || "/icons/avatar.svg"}
           width={100}
           height={100}
-          className="rounded-full"
+          className="rounded-full max-h-[100px] max-w-[100px] object-cover"
         />
         <div>
           <p>{user.username}</p>

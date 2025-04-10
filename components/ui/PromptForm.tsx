@@ -6,8 +6,7 @@ import { Blur } from "./Blur";
 import { useAuthStore } from "@/stores/AuthStore";
 import { toast } from "react-toastify";
 import { usePrompt } from "@/hooks/usePrompt";
-import { startTransition, useRef, useState } from "react";
-import { Loading } from "./Loading";
+import { startTransition, useRef } from "react";
 import { useChatStore } from "@/stores/ChatStore";
 
 type Props = {
