@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../ui/Button";
+import Button from "../ui/Button";
 import { ProviderButtons } from "../ProviderButtons";
 import Link from "next/link";
 import { ZodIssue } from "zod";

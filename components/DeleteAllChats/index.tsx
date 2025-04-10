@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Button } from "../ui/Button";
+import Button from "../ui/Button";
 import { toast } from "react-toastify";
 import { axiosInstance } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";

@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
 } from "../alert-dialog";
 import { Input } from "../input";
-import { Button } from "../Button";
+import Button from "../Button";
 import { useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { toast } from "react-toastify";
