@@ -12,7 +12,7 @@ import { DeleteAllChats } from "../DeleteAllChats";
 
 
 export const Sidebar = () => {
-  const { open } = useSidearStore();
+  const { open, setOpen } = useSidearStore();
   const session = useSession();
   const { fetchUser, loading, user } = useAuthStore();
 
@@ -29,7 +29,11 @@ export const Sidebar = () => {
         open ? "translate-x-0" : "translate-x-[-150%] md:translate-x-0"
       } `}
     >
-      <Link href="/" className="flex items-center gap-2">
+      <Link
+        onClick={() => setOpen(false)}
+        href="/"
+        className="flex items-center gap-2"
+      >
         <Image src="/icons/logo.svg" width={23} height={23} alt="Logo" />
         <h6 className="font-secondary font-bold text-sm hover:text-[#fff]">
           EchoAI.
@@ -39,13 +43,19 @@ export const Sidebar = () => {
         {/* SEARCH */}
         <Search />
         {/* CLEAR ALL CHATS */}
-        {user && user.chats?.length > 0 && <DeleteAllChats userId={user.id} />}
+        {user && user.chats?.length > 0 && (
+          <DeleteAllChats setOpen={setOpen} userId={user.id} />
+        )}
         {/* MY CHATS */}
 
-        <Chats chats={user ? user?.chats : []} loading={loading} />
+        <Chats
+          setOpen={setOpen}
+          chats={user ? user?.chats : []}
+          loading={loading}
+        />
 
         {/* USER BUTTON */}
-        <UserButton user={user} />
+        <UserButton setOpen={setOpen} user={user} />
       </div>
     </div>
   );

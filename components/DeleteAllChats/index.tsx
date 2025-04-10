@@ -10,9 +10,10 @@ import { confirmModal } from "@/helpers/confirmModal";
 
 type Props = {
   userId: string;
+  setOpen: (open: boolean) => void;
 };
 
-export const DeleteAllChats = ({ userId }: Props) => {
+export const DeleteAllChats = ({ userId, setOpen }: Props) => {
   const router = useRouter();
   const { data: session } = useSession();
   const { fetchUser } = useAuthStore();
@@ -28,6 +29,7 @@ export const DeleteAllChats = ({ userId }: Props) => {
         },
       });
 
+      setOpen(false);
       await fetchUser(session?.user);
       return router.push("/");
     } catch (error) {

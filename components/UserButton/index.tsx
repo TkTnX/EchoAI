@@ -6,11 +6,13 @@ import { User } from "lucide-react";
 
 type Props = {
   user: UserType | null;
+  setOpen: (open: boolean) => void;
 };
 
-export const UserButton = ({ user }: Props) => {
+export const UserButton = ({ user, setOpen }: Props) => {
   return (
     <Link
+      onClick={() => setOpen(false)}
       href={user ? "/account" : "/login"}
       className="flex items-center gap-2 hover:bg-bgLight rounded-lg transition absolute bottom-5 left-3 right-3 p-2 bg-foreground"
     >

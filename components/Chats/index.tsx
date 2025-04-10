@@ -6,9 +6,10 @@ import { useChatStore } from "@/stores/ChatStore";
 type Props = {
   loading: boolean;
   chats: Chat[];
+  setOpen: (open: boolean) => void;
 };
 
-export const Chats = ({ loading, chats }: Props) => {
+export const Chats = ({ loading, chats, setOpen }: Props) => {
   const { search } = useChatStore();
   const filters = chats?.filter((chat) => chat.name.includes(search)) || [];
   return (
@@ -21,7 +22,9 @@ export const Chats = ({ loading, chats }: Props) => {
             <Skeleton key={index} className="h-12 w-full bg-bgLight" />
           ))
         ) : filters?.length > 0 ? (
-          filters.map((chat) => <ChatItem key={chat.id} chat={chat} />)
+          filters.map((chat) => (
+            <ChatItem setOpen={setOpen} key={chat.id} chat={chat} />
+          ))
         ) : (
           <p className="text-xs text-center opacity-50 w-full h-full mt-[100%]">
             Чатов ещё нет!
