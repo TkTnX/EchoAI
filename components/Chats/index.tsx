@@ -10,7 +10,7 @@ type Props = {
 
 export const Chats = ({ loading, chats }: Props) => {
   const { search } = useChatStore();
-  const filters = chats.filter((chat) => chat.name.includes(search));
+  const filters = chats?.filter((chat) => chat.name.includes(search)) || [];
   return (
     <div className="mt-5 ">
       <h6 className="uppercase opacity-40">Библиотека</h6>
