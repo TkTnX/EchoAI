@@ -7,7 +7,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../alert-dialog";
-import  Button  from "../Button";
+import { Button } from "@/components/ui/Button";
 import { Input } from "../input";
 import { Plus } from "lucide-react";
 import { User } from "@/generated/prisma";

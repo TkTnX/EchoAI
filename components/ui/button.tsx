@@ -8,7 +8,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const Button = ({
+export const Button = ({
   blurPosition,
   className,
   children,
@@ -29,5 +29,3 @@ const Button = ({
     </button>
   );
 };
-
-export default Button
