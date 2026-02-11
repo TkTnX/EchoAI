@@ -22,7 +22,7 @@
     "emoji-picker-react": "^4.12.2",
     "gigachat": "^0.0.14",
     "lucide-react": "^0.485.0",
-    "next": "15.2.4",
+    "next": "^15.5.7",
     "next-auth": "^4.24.11",
     "prisma": "^6.5.0",
     "react": "^19.0.0",
